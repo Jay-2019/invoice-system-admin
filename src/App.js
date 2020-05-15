@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { StrictMode } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { publicRoutes, privateRoutes } from "./routes/index";
+
 import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
+   <StrictMode>
+      <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      < div className="container-fluid">
+        <Router>
+          <Switch>
+            {publicRoutes()}
+            {privateRoutes()}
+          </Switch>
+        </Router>
+      </div>
       </header>
     </div>
+   </StrictMode>
   );
 }
 
-export default App;
+
