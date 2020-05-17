@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
@@ -7,31 +7,31 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function CourseFeeDueDate(props) {
-  // const [dueDate, setDueDate] = useState({
-  //   firstYear: "",
-  //   secondYear: "",
-  //   thirdYear: "",
-  //   fourthYear: ""
-  // });
+  const [dueDate, setDueDate] = useState({
+    firstYear: "",
+    secondYear: "",
+    thirdYear: "",
+    fourthYear: ""
+  });
 
-  // useEffect(() => {
-  //   Axios.get(
-  //     "http://localhost:4000/feePaymentDB/getCourseFeeDueDate/" +
-  //       "5ebe659d096ddc0390a8e8ae"
-  //   )
-  //     .then(response => {
-  //       return setDueDate({
-  //         firstYear: new Date(response.data.firstYear).toLocaleDateString(
-  //           "en-GB"
-  //         ),
-  //         secondYear: response.data.secondYear,
-  //         thirdYear: response.data.thirdYear,
-  //         fourthYear: response.data.fourthYear
-  //       });
-  //     })
-  //     .catch(error => console.log(error.message));
-  // }, []);
-  // console.log(new Date(dueDate.firstYear).toLocaleDateString("en-GB"));
+  useEffect(() => {
+    Axios.get(
+      "http://localhost:4000/feePaymentDB/getCourseFeeDueDate/" +
+        "5ec0ec3d70f1cc05e0d9f6d8"
+    )
+      .then(response => {
+        return setDueDate({
+          firstYear: new Date(response.data.firstYear).toLocaleDateString(
+            "en-GB"
+          ),
+          secondYear: response.data.secondYear,
+          thirdYear: response.data.thirdYear,
+          fourthYear: response.data.fourthYear
+        });
+      })
+      .catch(error => console.log(error.message));
+  }, []);
+  console.log(dueDate);
   return (
     <Formik
       initialValues={{
@@ -49,11 +49,11 @@ export default function CourseFeeDueDate(props) {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         Axios.post(
           "http://localhost:4000/feePaymentDB/updateCourseFeeDueDate/" +
-            "5ebe659d096ddc0390a8e8ae",
+            "5ec0ec3d70f1cc05e0d9f6d8",
           values
         )
           .then(response => {
-            return response.data;
+            return console.log(response.data);
           })
           .catch(error => error.message);
 

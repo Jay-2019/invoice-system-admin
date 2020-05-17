@@ -4,6 +4,11 @@ export const year = {
     thirdYear: "Third Year",
     fourthYear: "Fourth Year",
 }
+export const arrayOfYear = ["First Year",
+    "Second Year",
+    "Third Year",
+    "Fourth Year"]
+
 export const courseFeeType = {
     studyTripFee: "Study Trip Fee",
     tuitionFee: "Tuition Free",
