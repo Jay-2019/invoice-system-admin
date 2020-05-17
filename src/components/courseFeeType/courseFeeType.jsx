@@ -1,13 +1,10 @@
 import React from "react";
-import { Formik, Form, ErrorMessage, Field } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
-// import { Redirect } from "react-router-dom";
-import { courseFeeType } from "../../constant";
-// import calculateFee from "./index";
+import { courseFeeType, arrayOfYear } from "../../constant";
 
 export default function CourseFeeType(props) {
-  //   if (localStorage.getItem("token")) return <Redirect to="/" />;
   const calculateFee = values => {
     values.totalFee =
       values.delayFee +
@@ -31,6 +28,7 @@ export default function CourseFeeType(props) {
   return (
     <Formik
       initialValues={{
+        year: "",
         totalFee: "",
         delayFee: "",
         studyTripFee: "",
@@ -156,7 +154,10 @@ export default function CourseFeeType(props) {
         totalFee: Yup.string().matches(
           /\d+(\.\d{1,2})?/,
           " Fee contain only Numbers/Decimal-Number (0-9) "
-        )
+        ),
+        year: Yup.string()
+          .oneOf(arrayOfYear, "Invalid Gender")
+          .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         calculateFee(values);
@@ -169,306 +170,312 @@ export default function CourseFeeType(props) {
             return response.data;
           })
           .catch(error => error.message);
+
         setSubmitting(true);
         resetForm();
         // props.history.push("/studentSignIn");
       }}
     >
-      {({
-        values,
-        errors,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        setFieldValue
-      }) => (
-        <Form>
-          <br />
-          <div className="d-flex justify-content-center">
-            <div className="card text-white bg-dark w-75 ">
-              <div className="card-header  text-center">
-                <h2> Update Course Fee Type</h2>
-              </div>
-              <div className="card-body">
-                <div>
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.studyTripFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="studyTripFee"
-                        placeholder={courseFeeType.studyTripFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="studyTripFee" />
-                    </div>
+      <Form>
+        <br />
+        <div className="d-flex justify-content-center">
+          <div className="card text-white bg-dark w-75 ">
+            <div className="card-header  text-center">
+              <h2>Student SignUp</h2>
+            </div>
+            <div className="card-body">
+              <div>
+                <div className="row">
+                  <div className="col">
+                    <b>Year</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.tuitionFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="tuitionFee"
-                        placeholder={courseFeeType.tuitionFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="tuitionFee" />
-                    </div>
+                  <div className="col">
+                    <Field as="select" name="year" className="custom-select">
+                      <option disabled value="">
+                        Select Year...
+                      </option>
+                      {arrayOfYear.map((data, index) => (
+                        <option key={index} value={data}>
+                          {data}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage name="year" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.laboratory}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="laboratory"
-                        placeholder={courseFeeType.laboratory}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="laboratory" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.studyTripFee}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.delayFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="delayFee"
-                        placeholder={courseFeeType.delayFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="delayFee" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="studyTripFee"
+                      placeholder={courseFeeType.studyTripFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="studyTripFee" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.securityFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="securityFee"
-                        placeholder={courseFeeType.securityFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="securityFee" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.tuitionFee}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.hostelFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="hostelFee"
-                        placeholder={courseFeeType.hostelFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="hostelFee" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="tuitionFee"
+                      placeholder={courseFeeType.tuitionFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="tuitionFee" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.otherCharges}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="otherCharges"
-                        placeholder={courseFeeType.otherCharges}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="otherCharges" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.laboratory}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.entranceFees}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="entranceFees"
-                        placeholder={courseFeeType.entranceFees}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="entranceFees" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="laboratory"
+                      placeholder={courseFeeType.laboratory}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="laboratory" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.centralLibraryFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="centralLibraryFee"
-                        placeholder={courseFeeType.centralLibraryFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="centralLibraryFee" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.delayFee}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.studentSmartCardFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="studentSmartCardFee"
-                        placeholder={courseFeeType.studentSmartCardFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="studentSmartCardFee" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="delayFee"
+                      placeholder={courseFeeType.delayFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="delayFee" />
                   </div>
-                  <hr />
-                  {/* sportsAndCulturalProgramFee */}
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.sportsAndCulturalProgramFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="sportsAndCulturalProgramFee"
-                        placeholder={courseFeeType.sportsAndCulturalProgramFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="sportsAndCulturalProgramFee" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.securityFee}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.studentWelfareFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="studentWelfareFee"
-                        placeholder={courseFeeType.studentWelfareFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="studentWelfareFee" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="securityFee"
+                      placeholder={courseFeeType.securityFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="securityFee" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.developmentFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="developmentFee"
-                        placeholder={courseFeeType.developmentFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="developmentFee" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.hostelFee}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.studentAcademicGuide}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="studentAcademicGuide"
-                        placeholder={courseFeeType.studentAcademicGuide}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="studentAcademicGuide" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="hostelFee"
+                      placeholder={courseFeeType.hostelFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="hostelFee" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.examinationFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="examinationFee"
-                        placeholder={courseFeeType.examinationFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="examinationFee" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.otherCharges}</b>
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.energyCharges}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="energyCharges"
-                        placeholder={courseFeeType.energyCharges}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="energyCharges" />
-                    </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="otherCharges"
+                      placeholder={courseFeeType.otherCharges}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="otherCharges" />
                   </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col">
-                      <b>{courseFeeType.internetFee}</b>
-                    </div>
-                    <div className="col">
-                      <Field
-                        type="number"
-                        name="internetFee"
-                        placeholder={courseFeeType.internetFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="internetFee" />
-                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.entranceFees}</b>
                   </div>
-                  <hr />
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="entranceFees"
+                      placeholder={courseFeeType.entranceFees}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="entranceFees" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.centralLibraryFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="centralLibraryFee"
+                      placeholder={courseFeeType.centralLibraryFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="centralLibraryFee" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.studentSmartCardFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="studentSmartCardFee"
+                      placeholder={courseFeeType.studentSmartCardFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="studentSmartCardFee" />
+                  </div>
+                </div>
+                <hr />
+                {/* sportsAndCulturalProgramFee */}
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.sportsAndCulturalProgramFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="sportsAndCulturalProgramFee"
+                      placeholder={courseFeeType.sportsAndCulturalProgramFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="sportsAndCulturalProgramFee" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.studentWelfareFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="studentWelfareFee"
+                      placeholder={courseFeeType.studentWelfareFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="studentWelfareFee" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.developmentFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="developmentFee"
+                      placeholder={courseFeeType.developmentFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="developmentFee" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.studentAcademicGuide}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="studentAcademicGuide"
+                      placeholder={courseFeeType.studentAcademicGuide}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="studentAcademicGuide" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.examinationFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="examinationFee"
+                      placeholder={courseFeeType.examinationFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="examinationFee" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.energyCharges}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="energyCharges"
+                      placeholder={courseFeeType.energyCharges}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="energyCharges" />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col">
+                    <b>{courseFeeType.internetFee}</b>
+                  </div>
+                  <div className="col">
+                    <Field
+                      type="number"
+                      name="internetFee"
+                      placeholder={courseFeeType.internetFee}
+                      className="form-control"
+                    />
+                    <ErrorMessage name="internetFee" />
+                  </div>
+                </div>
+                <hr />
 
-                  <div className="row">
-                    <div className="col text-center">
-                      <button
-                        type="submit"
-                        className="btn btn-outline-success"
-                        disabled={isSubmitting}
-                      >
-                        Update Fee Type
-                      </button>
-                    </div>
+                <div className="row">
+                  <div className="col text-center">
+                    <button type="submit" className="btn btn-outline-success">
+                      Update Fee Type
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="card-footer text-center">
-                Faculty of engineering & technology
-              </div>
+            </div>
+            <div className="card-footer text-center">
+              Faculty of engineering & technology
             </div>
           </div>
-        </Form>
-      )}
+        </div>
+      </Form>
     </Formik>
   );
 }
