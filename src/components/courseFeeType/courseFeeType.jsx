@@ -5,6 +5,27 @@ import Axios from "axios";
 import { courseFeeType, arrayOfYear } from "../../constant";
 
 export default function CourseFeeType(props) {
+  const mapYearWithId = year => {
+    let id;
+    switch (year) {
+      case "First Year":
+        id = "5ec13f8678ea5a2e0c1a6bfe";
+        break;
+      case "Second Year":
+        id = "5ec13ffc78ea5a2e0c1a6bff";
+        break;
+      case "Third Year":
+        id = "5ec1401078ea5a2e0c1a6c00";
+        break;
+      case "Fourth Year":
+        id = "5ec1402178ea5a2e0c1a6c01";
+        break;
+      default:
+        return null;
+    }
+    return id;
+  };
+
   const calculateFee = values => {
     values.totalFee =
       values.delayFee +
@@ -160,10 +181,12 @@ export default function CourseFeeType(props) {
           .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        console.log(mapYearWithId(values.year));
         calculateFee(values);
 
         Axios.post(
-          "http://localhost:4000/feePaymentDB/updateCourseFeeType/",
+          "http://localhost:4000/feePaymentDB/updateCourseFeeType/" +
+            mapYearWithId(values.year),
           values
         )
           .then(response => {
