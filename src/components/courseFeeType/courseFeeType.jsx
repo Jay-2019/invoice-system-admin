@@ -213,10 +213,8 @@ export default function CourseFeeType(props) {
                     <b>Year</b>
                   </div>
                   <div className="col">
-                    <Field as="select" name="year" className="custom-select">
-                      <option disabled value="">
-                        Select Year...
-                      </option>
+                    <Field as="select" name="year" className="custom-select">                
+                      <option hidden>Select Year...</option>
                       {arrayOfYear.map((data, index) => (
                         <option key={index} value={data}>
                           {data}
