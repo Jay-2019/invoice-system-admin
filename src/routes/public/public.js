@@ -1,5 +1,5 @@
 import React from 'react'
-import { CourseFeeDueDate, CourseFeeType, BackFeeType } from "../../components/index";
+import { CourseFeeDueDate, CourseFeeType, BackFeeType, BackFeeDueDate } from "../../components/index";
 import PublicRoute from "./publicRoute";
 
 const publicRoutes = (props) => {
@@ -7,6 +7,7 @@ const publicRoutes = (props) => {
         { path: "/updateCourseFeeDueDate", component: CourseFeeDueDate },
         { path: "/updateCourseFeeType", component: CourseFeeType },
         { path: "/updateBackFeeType", component: BackFeeType },
+        { path: "/updateBackFeeDueDate", component: BackFeeDueDate }
 
     ];
     return routes.map((route, index) => {
