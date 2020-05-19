@@ -204,7 +204,7 @@ export default function CourseFeeType(props) {
         <div className="d-flex justify-content-center">
           <div className="card text-white bg-dark w-75 ">
             <div className="card-header  text-center">
-              <h2>Student SignUp</h2>
+              <h2>Course Fee Type</h2>
             </div>
             <div className="card-body">
               <div>
@@ -213,7 +213,7 @@ export default function CourseFeeType(props) {
                     <b>Year</b>
                   </div>
                   <div className="col">
-                    <Field as="select" name="year" className="custom-select">                
+                    <Field as="select" name="year" className="custom-select">
                       <option hidden>Select Year...</option>
                       {arrayOfYear.map((data, index) => (
                         <option key={index} value={data}>

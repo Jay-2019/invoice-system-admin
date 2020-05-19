@@ -9,6 +9,14 @@ export const arrayOfYear = ["First Year",
     "Third Year",
     "Fourth Year"]
 
+export const backFeeType = {
+    examinationFormFee: "Examination Form Fee",
+    backPaper: "Back Paper",
+    delayFee: "Delay Fee",
+    otherCharges: "Other Charges",
+    totalFee: "Total Fee"
+}
+
 export const courseFeeType = {
     studyTripFee: "Study Trip Fee",
     tuitionFee: "Tuition Free",
