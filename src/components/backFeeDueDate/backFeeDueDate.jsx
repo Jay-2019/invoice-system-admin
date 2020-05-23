@@ -6,44 +6,27 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function BackFeeDueDate(props) {
-  //   const [dueDate, setDueDate] = useState({
-  //     firstYear: "",
-  //     secondYear: "",
-  //     thirdYear: "",
-  //     fourthYear: ""
-  //   });
-
-  //   useEffect(() => {
-  //     Axios.get(
-  //       "http://localhost:4000/feePaymentDB/getBackFeeDueDate/" +
-  //         "5ec3822919bba72e54e8651d"
-  //     )
-  //       .then(response => {
-  //         return setDueDate({
-  //           firstYear: new Date(response.data.firstYear).toLocaleDateString(
-  //             "en-GB"
-  //           ),
-  //           secondYear: response.data.secondYear,
-  //           thirdYear: response.data.thirdYear,
-  //           fourthYear: response.data.fourthYear
-  //         });
-  //       })
-  //       .catch(error => console.log(error.message));
-  //   }, []);
-  //   console.log(dueDate);
   return (
     <Formik
       initialValues={{
-        firstYear: new Date(),
-        secondYear: new Date(),
-        thirdYear: new Date(),
-        fourthYear: new Date()
+        firstSemester: new Date(),
+        secondSemester: new Date(),
+        thirdSemester: new Date(),
+        fourthSemester: new Date(),
+        fifthSemester: new Date(),
+        sixthSemester: new Date(),
+        seventhSemester: new Date(),
+        eighthSemester: new Date()
       }}
       validationSchema={Yup.object({
-        firstYear: Yup.date().required("Required"),
-        secondYear: Yup.date().required("Required"),
-        thirdYear: Yup.date().required("Required"),
-        fourthYear: Yup.date().required("Required")
+        firstSemester: Yup.date().required("Required"),
+        secondSemester: Yup.date().required("Required"),
+        thirdSemester: Yup.date().required("Required"),
+        fourthSemester: Yup.date().required("Required"),
+        fifthSemester: Yup.date().required("Required"),
+        sixthSemester: Yup.date().required("Required"),
+        seventhSemester: Yup.date().required("Required"),
+        eighthSemester: Yup.date().required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         Axios.post(
@@ -52,7 +35,7 @@ export default function BackFeeDueDate(props) {
           values
         )
           .then(response => {
-            return console.log(response.data);
+            return window.alert("Back Fee DueDate Update Successfully");
           })
           .catch(error => error.message);
 
@@ -81,70 +64,144 @@ export default function BackFeeDueDate(props) {
                 <div>
                   <div className="row">
                     <div className="col">
-                      <b>First Year</b>
+                      <b>First Semester</b>
                     </div>
                     <div className="col">
                       <DatePicker
-                        selected={values.firstYear}
+                        selected={values.firstSemester}
                         dateFormat="d MMMM, yyyy"
                         className="form-control"
-                        name="firstYear"
-                        onChange={date => setFieldValue("firstYear", date)}
+                        name="firstSemester"
+                        onChange={date => setFieldValue("firstSemester", date)}
                       />
-                      <ErrorMessage name="firstYear" />
+                      <ErrorMessage name="firstSemester" />
                     </div>
                   </div>
                   <hr />
 
                   <div className="row">
                     <div className="col">
-                      <b>Second Year</b>
-                      <ErrorMessage name="secondYear" />
+                      <b>Third Semester</b>
                     </div>
                     <div className="col">
                       <DatePicker
-                        selected={values.secondYear}
+                        selected={values.thirdSemester}
                         dateFormat="d MMMM, yyyy"
                         className="form-control"
-                        name="secondYear"
-                        onChange={date => setFieldValue("secondYear", date)}
+                        name="thirdSemester"
+                        onChange={date => setFieldValue("thirdSemester", date)}
                       />
-                      <ErrorMessage name="secondYear" />
+                      <ErrorMessage name="thirdSemester" />
                     </div>
                   </div>
                   <hr />
 
                   <div className="row">
                     <div className="col">
-                      <b>Third Year</b>
+                      <b>Fifth Semester</b>
+                      <ErrorMessage name="fifthSemester" />
                     </div>
                     <div className="col">
                       <DatePicker
-                        selected={values.thirdYear}
+                        selected={values.fifthSemester}
                         dateFormat="d MMMM, yyyy"
                         className="form-control"
-                        name="thirdYear"
-                        onChange={date => setFieldValue("thirdYear", date)}
+                        name="fifthSemester"
+                        onChange={date => setFieldValue("fifthSemester", date)}
                       />
-                      <ErrorMessage name="thirdYear" />
+                      <ErrorMessage name="fifthSemester" />
                     </div>
                   </div>
                   <hr />
 
                   <div className="row">
                     <div className="col">
-                      <b>Fourth Year</b>
-                      <ErrorMessage name="fourthYear" />
+                      <b>Seventh Semester</b>
+                      <ErrorMessage name="seventhSemester" />
                     </div>
                     <div className="col">
                       <DatePicker
-                        selected={values.fourthYear}
+                        selected={values.seventhSemester}
                         dateFormat="d MMMM, yyyy"
                         className="form-control"
-                        name="fourthYear"
-                        onChange={date => setFieldValue("fourthYear", date)}
+                        name="seventhSemester"
+                        onChange={date =>
+                          setFieldValue("seventhSemester", date)
+                        }
                       />
-                      <ErrorMessage name="fourthYear" />
+                      <ErrorMessage name="seventhSemester" />
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className="row">
+                    <div className="col">
+                      <b>Second Semester</b>
+                      <ErrorMessage name="secondSemester" />
+                    </div>
+                    <div className="col">
+                      <DatePicker
+                        selected={values.secondSemester}
+                        dateFormat="d MMMM, yyyy"
+                        className="form-control"
+                        name="secondSemester"
+                        onChange={date => setFieldValue("secondSemester", date)}
+                      />
+                      <ErrorMessage name="secondSemester" />
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className="row">
+                    <div className="col">
+                      <b>Fourth Semester</b>
+                      <ErrorMessage name="fourthSemester" />
+                    </div>
+                    <div className="col">
+                      <DatePicker
+                        selected={values.fourthSemester}
+                        dateFormat="d MMMM, yyyy"
+                        className="form-control"
+                        name="fourthSemester"
+                        onChange={date => setFieldValue("fourthSemester", date)}
+                      />
+                      <ErrorMessage name="fourthSemester" />
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className="row">
+                    <div className="col">
+                      <b>Sixth Semester</b>
+                      <ErrorMessage name="sixthSemester" />
+                    </div>
+                    <div className="col">
+                      <DatePicker
+                        selected={values.sixthSemester}
+                        dateFormat="d MMMM, yyyy"
+                        className="form-control"
+                        name="sixthSemester"
+                        onChange={date => setFieldValue("sixthSemester", date)}
+                      />
+                      <ErrorMessage name="sixthSemester" />
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className="row">
+                    <div className="col">
+                      <b>Eighth Semester</b>
+                      <ErrorMessage name="eighthSemester" />
+                    </div>
+                    <div className="col">
+                      <DatePicker
+                        selected={values.eighthSemester}
+                        dateFormat="d MMMM, yyyy"
+                        className="form-control"
+                        name="eighthSemester"
+                        onChange={date => setFieldValue("eighthSemester", date)}
+                      />
+                      <ErrorMessage name="eighthSemester" />
                     </div>
                   </div>
                   <hr />
