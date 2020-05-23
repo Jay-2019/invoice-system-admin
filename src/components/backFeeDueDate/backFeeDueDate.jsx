@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
@@ -6,31 +6,31 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function BackFeeDueDate(props) {
-//   const [dueDate, setDueDate] = useState({
-//     firstYear: "",
-//     secondYear: "",
-//     thirdYear: "",
-//     fourthYear: ""
-//   });
+  //   const [dueDate, setDueDate] = useState({
+  //     firstYear: "",
+  //     secondYear: "",
+  //     thirdYear: "",
+  //     fourthYear: ""
+  //   });
 
-//   useEffect(() => {
-//     Axios.get(
-//       "http://localhost:4000/feePaymentDB/getBackFeeDueDate/" +
-//         "5ec3822919bba72e54e8651d"
-//     )
-//       .then(response => {
-//         return setDueDate({
-//           firstYear: new Date(response.data.firstYear).toLocaleDateString(
-//             "en-GB"
-//           ),
-//           secondYear: response.data.secondYear,
-//           thirdYear: response.data.thirdYear,
-//           fourthYear: response.data.fourthYear
-//         });
-//       })
-//       .catch(error => console.log(error.message));
-//   }, []);
-//   console.log(dueDate);
+  //   useEffect(() => {
+  //     Axios.get(
+  //       "http://localhost:4000/feePaymentDB/getBackFeeDueDate/" +
+  //         "5ec3822919bba72e54e8651d"
+  //     )
+  //       .then(response => {
+  //         return setDueDate({
+  //           firstYear: new Date(response.data.firstYear).toLocaleDateString(
+  //             "en-GB"
+  //           ),
+  //           secondYear: response.data.secondYear,
+  //           thirdYear: response.data.thirdYear,
+  //           fourthYear: response.data.fourthYear
+  //         });
+  //       })
+  //       .catch(error => console.log(error.message));
+  //   }, []);
+  //   console.log(dueDate);
   return (
     <Formik
       initialValues={{

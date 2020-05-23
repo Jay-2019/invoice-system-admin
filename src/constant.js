@@ -3,11 +3,27 @@ export const year = {
     secondYear: "Second Year",
     thirdYear: "Third Year",
     fourthYear: "Fourth Year",
-}
-export const arrayOfYear = ["First Year",
+};
+
+export const arrayOfYear = [
+    "First Year",
     "Second Year",
     "Third Year",
-    "Fourth Year"]
+    "Fourth Year"];
+
+export const arrayOfBranch = ["B.Tech I.T.", "B.Tech F.T.", "B.Tech A.G.", "B.Tech CIVIL"];
+
+export const arrayOfSemester = [
+    "First Semester",
+    "Second Semester",
+    "Third Semester",
+    "Fourth Semester",
+    "Fifth Semester",
+    "Sixth Semester",
+    "Seventh Semester",
+    "Eighth Semester"];
+
+
 
 export const backFeeType = {
     examinationFormFee: "Examination Form Fee",
