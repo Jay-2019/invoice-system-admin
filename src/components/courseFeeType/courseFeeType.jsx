@@ -28,7 +28,6 @@ export default function CourseFeeType(props) {
 
   const calculateFee = values => {
     values.totalFee =
-      values.delayFee +
       values.studyTripFee +
       values.tuitionFee +
       values.laboratory +
