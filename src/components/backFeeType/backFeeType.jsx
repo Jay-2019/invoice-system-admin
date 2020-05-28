@@ -7,7 +7,6 @@ import { backFeeType } from "../../constant";
 export default function BackFeeType(props) {
   const calculateFee = values => {
     values.totalFee =
-      values.delayFee +
       values.examinationFormFee +
       values.backPaper +
       values.otherCharges;
