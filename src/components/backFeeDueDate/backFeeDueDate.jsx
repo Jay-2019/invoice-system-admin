@@ -4,8 +4,11 @@ import * as Yup from "yup";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigationBar } from "../index";
 
 export default function BackFeeDueDate(props) {
+  const navigationBar = useNavigationBar();
+
   return (
     <Formik
       initialValues={{
@@ -54,7 +57,8 @@ export default function BackFeeDueDate(props) {
         setFieldValue
       }) => (
         <Form>
-          <br />
+          {navigationBar}
+          <hr />
           <div className="d-flex justify-content-center">
             <div className="card text-white bg-dark w-75 ">
               <div className="card-header  text-center">
@@ -62,11 +66,19 @@ export default function BackFeeDueDate(props) {
               </div>
               <div className="card-body">
                 <div>
+                  <div className="row text-center">
+                    <div className="col text-center ">
+                      <b>
+                        <i> Odd Semesters</i>
+                      </b>
+                    </div>
+                  </div>
+                  <hr />
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>First Semester</b>
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.firstSemester}
                         dateFormat="d MMMM, yyyy"
@@ -80,10 +92,10 @@ export default function BackFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Third Semester</b>
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.thirdSemester}
                         dateFormat="d MMMM, yyyy"
@@ -97,11 +109,11 @@ export default function BackFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Fifth Semester</b>
                       <ErrorMessage name="fifthSemester" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.fifthSemester}
                         dateFormat="d MMMM, yyyy"
@@ -115,11 +127,11 @@ export default function BackFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Seventh Semester</b>
                       <ErrorMessage name="seventhSemester" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.seventhSemester}
                         dateFormat="d MMMM, yyyy"
@@ -134,12 +146,21 @@ export default function BackFeeDueDate(props) {
                   </div>
                   <hr />
 
+                  <div className="row text-center">
+                    <div className="col text-center ">
+                      <b>
+                        <i>Even Semesters</i>
+                      </b>
+                    </div>
+                  </div>
+                  <hr />
+
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Second Semester</b>
                       <ErrorMessage name="secondSemester" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.secondSemester}
                         dateFormat="d MMMM, yyyy"
@@ -153,11 +174,11 @@ export default function BackFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Fourth Semester</b>
                       <ErrorMessage name="fourthSemester" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.fourthSemester}
                         dateFormat="d MMMM, yyyy"
@@ -171,11 +192,11 @@ export default function BackFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Sixth Semester</b>
                       <ErrorMessage name="sixthSemester" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.sixthSemester}
                         dateFormat="d MMMM, yyyy"
@@ -189,11 +210,11 @@ export default function BackFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Eighth Semester</b>
                       <ErrorMessage name="eighthSemester" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.eighthSemester}
                         dateFormat="d MMMM, yyyy"
@@ -210,10 +231,10 @@ export default function BackFeeDueDate(props) {
                     <div className="col text-center">
                       <button
                         type="submit"
-                        className="btn btn-outline-success"
+                        className="btn btn-outline-success btn-block"
                         disabled={isSubmitting}
                       >
-                        Update Due Dates
+                       <i> <b>Update Due Dates</b></i>
                       </button>
                     </div>
                   </div>

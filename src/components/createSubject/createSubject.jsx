@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
-import { arrayOfBranch, arrayOfSemester } from "../../constant";
+import { arrayOfSemester } from "../../constant";
+import { useNavigationBar } from "../index";
 
 export default function CreateSubject(props) {
+  const navigationBar = useNavigationBar();
+
+  const [arrayOfBranch, setArrayOfBranch] = useState([]);
+  const [history, setHistory] = useState({
+    subject: "",
+    branch: "",
+    semester: ""
+  });
+
+  useEffect(() => {
+    Axios.get(`http://localhost:4000/feePaymentDB/getBranch`)
+      .then(response => {
+        setArrayOfBranch(response.data);
+      })
+      .catch(error => error.message);
+  }, []);
+
   return (
     <Formik
       initialValues={{
-        subjectName: "",
-        branch: "",
-        semester: ""
+        subjectName: history.subject,
+        branch: history.branch,
+        semester: history.semester
       }}
       validationSchema={Yup.object({
         subjectName: Yup.string()
@@ -27,6 +45,13 @@ export default function CreateSubject(props) {
           .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        
+        setHistory({
+          subject: "",
+          branch: values.branch,
+          semester: values.semester
+        });
+
         Axios.post(`http://localhost:4000/feePaymentDB/createSubject/`, values)
           .then(response => {
             return response.data;
@@ -35,23 +60,25 @@ export default function CreateSubject(props) {
 
         setSubmitting(true);
         resetForm();
-        // props.history.push("/studentSignIn");
+
+        // props.history.push(`/createSubject/${localStorage.getItem("adminAuthToken")}`);
       }}
     >
       <Form>
-        <br />
+        {navigationBar}
+        <hr />
         <div className="d-flex justify-content-center">
           <div className="card text-white bg-dark w-75 ">
             <div className="card-header  text-center">
-              <h2>Course Fee Type</h2>
+              <h2>Create Subject</h2>
             </div>
             <div className="card-body">
               <div>
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>Subject Name</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6">
                     <Field
                       type="string"
                       name="subjectName"
@@ -63,10 +90,10 @@ export default function CreateSubject(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>Branch</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field as="select" name="branch" className="custom-select">
                       <option hidden>Select Branch...</option>
                       {arrayOfBranch.map((branch, index) => (
@@ -80,10 +107,10 @@ export default function CreateSubject(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>Semester</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       as="select"
                       name="semester"
@@ -103,8 +130,14 @@ export default function CreateSubject(props) {
 
                 <div className="row">
                   <div className="col text-center">
-                    <button type="submit" className="btn btn-outline-success">
-                      Create Subject
+                    <button
+                      type="submit"
+                      className="btn btn-outline-success  btn-block"
+                    >
+                      <i>
+                        {" "}
+                        <b>{" Create Subject"}</b>
+                      </i>
                     </button>
                   </div>
                 </div>

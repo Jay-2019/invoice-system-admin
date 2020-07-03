@@ -5,8 +5,11 @@ import Axios from "axios";
 // import { year } from "../../constant";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigationBar } from "../index";
 
 export default function CourseFeeDueDate(props) {
+  const navigationBar = useNavigationBar();
+
   const [dueDate, setDueDate] = useState({
     firstYear: "",
     secondYear: "",
@@ -72,7 +75,8 @@ export default function CourseFeeDueDate(props) {
         setFieldValue
       }) => (
         <Form>
-          <br />
+          {navigationBar}
+          <hr />
           <div className="d-flex justify-content-center">
             <div className="card text-white bg-dark w-75 ">
               <div className="card-header  text-center">
@@ -81,10 +85,10 @@ export default function CourseFeeDueDate(props) {
               <div className="card-body">
                 <div>
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>First Year</b>
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.firstYear}
                         dateFormat="d MMMM, yyyy"
@@ -98,11 +102,11 @@ export default function CourseFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Second Year</b>
                       <ErrorMessage name="secondYear" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.secondYear}
                         dateFormat="d MMMM, yyyy"
@@ -116,10 +120,10 @@ export default function CourseFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Third Year</b>
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.thirdYear}
                         dateFormat="d MMMM, yyyy"
@@ -133,11 +137,11 @@ export default function CourseFeeDueDate(props) {
                   <hr />
 
                   <div className="row">
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 text-center">
                       <b>Fourth Year</b>
                       <ErrorMessage name="fourthYear" />
                     </div>
-                    <div className="col">
+                    <div className="col-sm-12 col-md-6 ">
                       <DatePicker
                         selected={values.fourthYear}
                         dateFormat="d MMMM, yyyy"
@@ -154,10 +158,13 @@ export default function CourseFeeDueDate(props) {
                     <div className="col text-center">
                       <button
                         type="submit"
-                        className="btn btn-outline-success"
+                        className="btn btn-outline-success btn-block"
                         disabled={isSubmitting}
                       >
-                        Update Due Dates
+                        <i>
+                          {" "}
+                          <b> Update Due Dates</b>
+                        </i>
                       </button>
                     </div>
                   </div>

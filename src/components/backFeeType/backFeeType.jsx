@@ -3,8 +3,11 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import { backFeeType } from "../../constant";
+import { useNavigationBar } from "../index";
 
 export default function BackFeeType(props) {
+  const navigationBar = useNavigationBar();
+
   const calculateFee = values => {
     values.totalFee =
       values.delayFee +
@@ -71,19 +74,20 @@ export default function BackFeeType(props) {
       }}
     >
       <Form>
-        <br />
+        {navigationBar}
+        <hr />
         <div className="d-flex justify-content-center">
           <div className="card text-white bg-dark w-75 ">
             <div className="card-header  text-center">
-              <h2>Back Fee Type</h2>
+              <h2>Update Back Fee Type</h2>
             </div>
             <div className="card-body">
               <div>
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{backFeeType.examinationFormFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="examinationFormFee"
@@ -95,10 +99,10 @@ export default function BackFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{backFeeType.backPaper}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="backPaper"
@@ -110,10 +114,10 @@ export default function BackFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{backFeeType.delayFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="delayFee"
@@ -125,10 +129,10 @@ export default function BackFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{backFeeType.otherCharges}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="otherCharges"
@@ -145,9 +149,11 @@ export default function BackFeeType(props) {
                     <button
                       type="submit"
                       //   disabled={isSubmitting}
-                      className="btn btn-outline-success"
+                      className="btn btn-outline-success btn-block"
                     >
-                      Update Fee Type
+                      <i>
+                        <b>Update Fee Type</b>
+                      </i>
                     </button>
                   </div>
                 </div>

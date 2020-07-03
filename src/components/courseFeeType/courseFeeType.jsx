@@ -3,8 +3,11 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import { courseFeeType, arrayOfYear } from "../../constant";
+import { useNavigationBar } from "../index";
 
 export default function CourseFeeType(props) {
+  const navigationBar = useNavigationBar();
+
   const mapYearWithId = year => {
     let id;
     switch (year) {
@@ -200,19 +203,20 @@ export default function CourseFeeType(props) {
       }}
     >
       <Form>
-        <br />
+        {navigationBar}
+        <hr />
         <div className="d-flex justify-content-center">
           <div className="card text-white bg-dark w-75 ">
             <div className="card-header  text-center">
-              <h2>Course Fee Type</h2>
+              <h2>Update Course Fee Type</h2>
             </div>
             <div className="card-body">
               <div>
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>Year</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field as="select" name="year" className="custom-select">
                       <option hidden>Select Year...</option>
                       {arrayOfYear.map((data, index) => (
@@ -226,10 +230,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.studyTripFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6">
                     <Field
                       type="number"
                       name="studyTripFee"
@@ -241,10 +245,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.tuitionFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="tuitionFee"
@@ -256,10 +260,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.laboratory}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="laboratory"
@@ -271,10 +275,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.delayFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="delayFee"
@@ -286,10 +290,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.securityFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="securityFee"
@@ -301,10 +305,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.hostelFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="hostelFee"
@@ -316,10 +320,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.otherCharges}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="otherCharges"
@@ -331,10 +335,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.entranceFees}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="entranceFees"
@@ -346,10 +350,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.centralLibraryFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="centralLibraryFee"
@@ -361,10 +365,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.studentSmartCardFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="studentSmartCardFee"
@@ -377,10 +381,10 @@ export default function CourseFeeType(props) {
                 <hr />
                 {/* sportsAndCulturalProgramFee */}
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.sportsAndCulturalProgramFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="sportsAndCulturalProgramFee"
@@ -392,10 +396,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.studentWelfareFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="studentWelfareFee"
@@ -407,10 +411,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.developmentFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="developmentFee"
@@ -422,10 +426,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.studentAcademicGuide}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="studentAcademicGuide"
@@ -437,10 +441,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.examinationFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="examinationFee"
@@ -452,10 +456,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.energyCharges}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="energyCharges"
@@ -467,10 +471,10 @@ export default function CourseFeeType(props) {
                 </div>
                 <hr />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 text-center">
                     <b>{courseFeeType.internetFee}</b>
                   </div>
-                  <div className="col">
+                  <div className="col-sm-12 col-md-6 ">
                     <Field
                       type="number"
                       name="internetFee"
@@ -484,8 +488,13 @@ export default function CourseFeeType(props) {
 
                 <div className="row">
                   <div className="col text-center">
-                    <button type="submit" className="btn btn-outline-success">
-                      Update Fee Type
+                    <button
+                      type="submit"
+                      className="btn btn-outline-success btn-block"
+                    >
+                      <i>
+                       <b>{"  Update Fee Type"}</b>
+                      </i>
                     </button>
                   </div>
                 </div>

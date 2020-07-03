@@ -1,3 +1,14 @@
+export const arrayOfSecurityQuestions = [
+    "What Is Your 1st Achievement",
+    "What primary school did you attend",
+    "In what town or city was your first full time job",
+    "What was your dream job as a child",
+    "What are the last five digits of your driver's license number",
+    "In what town or city did you meet your spouse or partner",
+    "What sports team do you love to see lose"
+
+];
+
 export const year = {
     firstYear: "First Year",
     secondYear: "Second Year",
