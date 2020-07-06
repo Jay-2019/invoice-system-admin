@@ -3,6 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import { arrayOfSecurityQuestions } from "../../constant";
+import API from "../../config";
 
 export default function ResetPassword(props) {
   return (
@@ -41,17 +42,20 @@ export default function ResetPassword(props) {
           .required("Answer is required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        
         if (values.createPassword !== values.confirmPassword) {
           return window.alert("Password & Confirm Password Should be Match");
         }
 
-        Axios.post(
-          `http://localhost:4000/feePaymentDB/resetAdminPassword/`,
-          values
-        )
+        Axios.post(`${API}/resetAdminPassword/`, values)
           .then(response => {
-            return setTimeout(() => props.history.push("/adminSignIn"), 300);
+            if (response.status === 200) {
+              window.alert("Password Reset Successful ");
+              return props.history.push("/adminSignIn");
+            }
+
+            return window.alert(
+              "Password Reset Failed!!! Please Try After Sometime "
+            );
           })
           .catch(error => error.message);
 

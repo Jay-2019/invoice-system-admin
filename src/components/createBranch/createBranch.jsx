@@ -3,6 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import { useNavigationBar } from "../index";
+import API from "../../config";
 
 export default function CreateBranch(props) {
   const navigationBar = useNavigationBar();
@@ -22,17 +23,21 @@ export default function CreateBranch(props) {
           .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        Axios.post(`http://localhost:4000/feePaymentDB/createBranch/`, values)
+        Axios.post(`${API}/createBranch/`, values)
           .then(response => {
-            return response.data;
+            if (response.status === 200) {
+              window.alert("Branch Successfully Created");
+              resetForm();
+              return;
+            }
+
+            return window.alert(
+              "Something Went Wrong!!! Please Try Again or After Sometime "
+            );
           })
           .catch(error => error.message);
 
         setSubmitting(true);
-        resetForm();
-        // props.history.push(
-        //   `/createSubject/${localStorage.getItem("adminAuthToken")}`
-        // );
       }}
     >
       <Form>

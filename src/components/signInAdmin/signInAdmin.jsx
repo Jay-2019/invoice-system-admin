@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
+import API from "../../config";
 
 export default function SignInAdmin(props) {
   const [getCaptcha, setCaptcha] = useState();
@@ -59,26 +60,32 @@ export default function SignInAdmin(props) {
         captcha: Yup.string().required("Please Fill Required Captcha")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        if (getCaptcha !== values.captcha) return;
+        if (getCaptcha !== values.captcha)
+          return window.alert("Please Enter valid Captcha");
 
         Axios.get(
-          "http://localhost:4000/feePaymentDB/adminAuthentication/" +
-            values.email +
-            "/" +
-            values.password
+          `${API}/adminAuthentication/${values.email}/${values.password}`
         )
           .then(response => {
-            localStorage.setItem("adminAuthToken", response.data);
+            if (response.status === 200 && response.data === null) {
+              window.alert("Admin Not Found!!! Please Enter Valid Information");
+              resetForm();
+            }
 
-            return setTimeout(
-              () =>
-                props.history.push(
-                  "/createSubject/" + localStorage.getItem("adminAuthToken")
-                ),
-              400
+            if (response.status === 200) {
+              localStorage.setItem("adminAuthToken", response.data._id);
+              return props.history.push(
+                `/createSubject/${localStorage.getItem("adminAuthToken")}`
+              );
+            }
+
+            return window.alert(
+              "Admin Not Found!!! Please Enter Valid Information"
             );
           })
           .catch(error => error.message);
+
+        setSubmitting(true);
       }}
     >
       <Form>
@@ -134,12 +141,7 @@ export default function SignInAdmin(props) {
                   <br />
                   <div className="row">
                     <div className="col text-center">
-                      <canvas
-                        id="captcha"
-                        width="200"
-                        height="30"
-                        // className={`col ${style.captcha}`}
-                      ></canvas>
+                      <canvas id="captcha" width="200" height="30"></canvas>
                     </div>
                   </div>
                   <br />

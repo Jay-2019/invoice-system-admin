@@ -3,17 +3,12 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
 import { backFeeType } from "../../constant";
+import API from "../../config";
+import { calculateFee } from "./helper";
 import { useNavigationBar } from "../index";
 
 export default function BackFeeType(props) {
   const navigationBar = useNavigationBar();
-
-  const calculateFee = values => {
-    values.totalFee =
-      values.examinationFormFee +
-      values.backPaper +
-      values.otherCharges;
-  };
 
   return (
     <Formik
@@ -55,21 +50,23 @@ export default function BackFeeType(props) {
         )
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        calculateFee(values);
+        values.totalFee = calculateFee(values);
 
-        Axios.post(
-          "http://localhost:4000/feePaymentDB/updateBackFeeType/" +
-            "5ec376a132e3ab0f689a9d34",
-          values
-        )
+        Axios.post(`${API}/updateBackFeeType/5ec376a132e3ab0f689a9d34`, values)
           .then(response => {
-            return response.data;
+            if (response.status === 200) {
+              window.alert("Back-Fee-Type Successfully Updated");
+              resetForm();
+              return;
+            }
+
+            return window.alert(
+              "Something Went Wrong!!! Please Try Again or After Sometime "
+            );
           })
           .catch(error => error.message);
 
-        setSubmitting(false);
-        resetForm();
-        // props.history.push("/studentSignIn");
+        setSubmitting(true);
       }}
     >
       <Form>

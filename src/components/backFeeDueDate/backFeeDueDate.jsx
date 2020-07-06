@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import API from "../../config";
 import { useNavigationBar } from "../index";
 
 export default function BackFeeDueDate(props) {
@@ -33,18 +34,23 @@ export default function BackFeeDueDate(props) {
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         Axios.post(
-          "http://localhost:4000/feePaymentDB/updateBackFeeDueDate/" +
-            "5ec3822919bba72e54e8651d",
+          `${API}/updateBackFeeDueDate/5ec3822919bba72e54e8651d`,
           values
         )
           .then(response => {
-            return window.alert("Back Fee DueDate Update Successfully");
+            if (response.status === 200) {
+              window.alert("Back-Fee Due-Date Update Successfully");
+              resetForm();
+              return;
+            }
+
+            return window.alert(
+              "Something Went Wrong!!! Please Try Again or After Sometime "
+            );
           })
           .catch(error => error.message);
 
         setSubmitting(false);
-        resetForm();
-        // props.history.push("/studentSignIn");
       }}
     >
       {({
@@ -234,7 +240,9 @@ export default function BackFeeDueDate(props) {
                         className="btn btn-outline-success btn-block"
                         disabled={isSubmitting}
                       >
-                       <i> <b>Update Due Dates</b></i>
+                        <i>
+                          <b>Update Due Dates</b>
+                        </i>
                       </button>
                     </div>
                   </div>

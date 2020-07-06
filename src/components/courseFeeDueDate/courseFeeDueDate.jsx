@@ -5,6 +5,7 @@ import Axios from "axios";
 // import { year } from "../../constant";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import API from "../../config";
 import { useNavigationBar } from "../index";
 
 export default function CourseFeeDueDate(props) {
@@ -19,8 +20,7 @@ export default function CourseFeeDueDate(props) {
 
   useEffect(() => {
     Axios.get(
-      "http://localhost:4000/feePaymentDB/getCourseFeeDueDate/" +
-        "5ec0ec3d70f1cc05e0d9f6d8"
+      `http://localhost:4000/feePaymentDB/getCourseFeeDueDate/5ec0ec3d70f1cc05e0d9f6d8`
     )
       .then(response => {
         return setDueDate({
@@ -51,18 +51,23 @@ export default function CourseFeeDueDate(props) {
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         Axios.post(
-          "http://localhost:4000/feePaymentDB/updateCourseFeeDueDate/" +
-            "5ec0ec3d70f1cc05e0d9f6d8",
+          `${API}/updateCourseFeeDueDate/5ec0ec3d70f1cc05e0d9f6d8`,
           values
         )
           .then(response => {
-            return console.log(response.data);
+            if (response.status === 200) {
+              window.alert("Course-Fee Due-Date Successfully Updated");
+              resetForm();
+              return;
+            }
+
+            return window.alert(
+              "Something Went Wrong!!! Please Try Again or After Sometime "
+            );
           })
           .catch(error => error.message);
 
         setSubmitting(true);
-        resetForm();
-        // props.history.push("/studentSignIn");
       }}
     >
       {({

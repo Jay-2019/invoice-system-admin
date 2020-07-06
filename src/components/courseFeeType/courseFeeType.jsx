@@ -4,50 +4,12 @@ import * as Yup from "yup";
 import Axios from "axios";
 import { courseFeeType, arrayOfYear } from "../../constant";
 import { useNavigationBar } from "../index";
+import { mapYearWithId, calculateFee } from "./helper";
+import API from "../../config";
 
 export default function CourseFeeType(props) {
   const navigationBar = useNavigationBar();
 
-  const mapYearWithId = year => {
-    let id;
-    switch (year) {
-      case "First Year":
-        id = "5ec13f8678ea5a2e0c1a6bfe";
-        break;
-      case "Second Year":
-        id = "5ec13ffc78ea5a2e0c1a6bff";
-        break;
-      case "Third Year":
-        id = "5ec1401078ea5a2e0c1a6c00";
-        break;
-      case "Fourth Year":
-        id = "5ec1402178ea5a2e0c1a6c01";
-        break;
-      default:
-        return null;
-    }
-    return id;
-  };
-
-  const calculateFee = values => {
-    values.totalFee =
-      values.studyTripFee +
-      values.tuitionFee +
-      values.laboratory +
-      values.securityFee +
-      values.hostelFee +
-      values.otherCharges +
-      values.entranceFees +
-      values.centralLibraryFee +
-      values.studentSmartCardFee +
-      values.sportsAndCulturalProgramFee +
-      values.studentWelfareFee +
-      values.developmentFee +
-      values.studentAcademicGuide +
-      values.examinationFee +
-      values.energyCharges +
-      values.internetFee;
-  };
   return (
     <Formik
       initialValues={{
@@ -183,22 +145,26 @@ export default function CourseFeeType(props) {
           .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        console.log(mapYearWithId(values.year));
-        calculateFee(values);
+        values.totalFee = calculateFee(values);
 
         Axios.post(
-          "http://localhost:4000/feePaymentDB/updateCourseFeeType/" +
-            mapYearWithId(values.year),
+          `${API}/updateCourseFeeType/${mapYearWithId(values.year)}`,
           values
         )
           .then(response => {
-            return response.data;
+            if (response.status === 200) {
+              window.alert("Course-Fee-Type Successfully Updated");
+              resetForm();
+              return;
+            }
+
+            return window.alert(
+              "Something Went Wrong!!! Please Try Again or After Sometime "
+            );
           })
           .catch(error => error.message);
 
         setSubmitting(true);
-        resetForm();
-        // props.history.push("/studentSignIn");
       }}
     >
       <Form>
@@ -492,7 +458,7 @@ export default function CourseFeeType(props) {
                       className="btn btn-outline-success btn-block"
                     >
                       <i>
-                       <b>{"  Update Fee Type"}</b>
+                        <b>{"  Update Fee Type"}</b>
                       </i>
                     </button>
                   </div>

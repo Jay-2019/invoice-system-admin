@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import Axios from "axios";
 import { arrayOfSemester } from "../../constant";
 import { useNavigationBar } from "../index";
+import API from "../../config";
 
 export default function CreateSubject(props) {
   const navigationBar = useNavigationBar();
@@ -16,7 +17,7 @@ export default function CreateSubject(props) {
   });
 
   useEffect(() => {
-    Axios.get(`http://localhost:4000/feePaymentDB/getBranch`)
+    Axios.get(`${API}/getBranch`)
       .then(response => {
         setArrayOfBranch(response.data);
       })
@@ -45,23 +46,27 @@ export default function CreateSubject(props) {
           .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        
         setHistory({
           subject: "",
           branch: values.branch,
           semester: values.semester
         });
 
-        Axios.post(`http://localhost:4000/feePaymentDB/createSubject/`, values)
+        Axios.post(`${API}/createSubject/`, values)
           .then(response => {
-            return response.data;
+            if (response.status === 200) {
+              window.alert("Subject Successfully Created");
+               resetForm();
+               return;
+            }
+
+            return window.alert(
+              "Something Went Wrong!!! Please Try Again or After Sometime "
+            );
           })
           .catch(error => error.message);
 
         setSubmitting(true);
-        resetForm();
-
-        // props.history.push(`/createSubject/${localStorage.getItem("adminAuthToken")}`);
       }}
     >
       <Form>
