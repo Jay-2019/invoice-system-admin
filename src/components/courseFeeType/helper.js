@@ -1,5 +1,5 @@
-
-
+// //DB -> courseFeeDueDate(collection) -> documentID
+// map Year With CourseFeeType(collection) DocumentId
 const mapYearWithId = year => {
     let id;
     switch (year) {

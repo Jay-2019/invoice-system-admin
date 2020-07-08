@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 import Axios from "axios";
 import { arrayOfSecurityQuestions } from "../../constant";
 import API from "../../config";
@@ -43,32 +44,64 @@ export default function ResetPassword(props) {
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (values.createPassword !== values.confirmPassword) {
-          return window.alert("Password & Confirm Password Should be Match");
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Password & Confirm Password Should be Match.",
+            showConfirmButton: true,
+            timer: 2000
+          });
+          resetForm();
+          return;
         }
 
         Axios.post(`${API}/resetAdminPassword/`, values)
           .then(response => {
-            if (response.status === 200) {
-              window.alert("Password Reset Successful ");
+            if (response.status === 200 && response.data) {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Password Reset Successful :)",
+                showConfirmButton: true,
+                timer: 2000
+              });
+              resetForm();
               return props.history.push("/adminSignIn");
             }
 
-            return window.alert(
-              "Password Reset Failed!!! Please Try After Sometime "
-            );
+            if (response.status === 200 && response.data === null) {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Admin Not Found!!! Please Enter Valid Information.",
+                showConfirmButton: true,
+                timer: 2000
+              });
+              resetForm();
+              return;
+            }
+
+            return Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 2000
+            });
           })
           .catch(error => error.message);
 
         setSubmitting(true);
-        resetForm();
       }}
     >
       <Form>
-        <hr />
+        <br />
         <div className="d-flex justify-content-center">
-          <div className="card text-white bg-dark w-50 ">
-            <div className="card-header  text-center">
-              <h2>Reset Password</h2>
+          <div className="card text-white bg-dark border-light text-center">
+            <div className="card-header text-warning border-secondary text-center">
+              <i>
+                <h2>Reset Password</h2>
+              </i>
             </div>
             <div className="card-body">
               <div>
@@ -168,7 +201,7 @@ export default function ResetPassword(props) {
                   <div className="col text-center">
                     <button
                       type="submit"
-                      className="btn btn-outline-success  btn-block"
+                      className="btn btn-outline-warning  btn-block"
                     >
                       <i>
                         <b>{"Reset Password"}</b>
@@ -177,8 +210,17 @@ export default function ResetPassword(props) {
                   </div>
                 </div>
               </div>
+              <div className="text-center">
+                <small id="note" className="form-text text-muted">
+                  {"If You Are Lost Here Back To"}
+                  <a href="/adminSignIn">
+                    <b>{" Admin-Sign-In "}</b>
+                  </a>
+                </small>
+              </div>
             </div>
-            <div className="card-footer text-center">
+
+            <div className="card-footer border-secondary text-center">
               Faculty of engineering & technology
             </div>
           </div>

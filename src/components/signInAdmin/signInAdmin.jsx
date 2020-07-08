@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 import Axios from "axios";
 import API from "../../config";
 
@@ -60,28 +61,58 @@ export default function SignInAdmin(props) {
         captcha: Yup.string().required("Please Fill Required Captcha")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        if (getCaptcha !== values.captcha)
-          return window.alert("Please Enter valid Captcha");
+        if (getCaptcha !== values.captcha) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Please Enter valid Captcha.",
+            showConfirmButton: true,
+            timer: 2000
+          });
+          resetForm();
+          return;
+        }
 
         Axios.get(
           `${API}/adminAuthentication/${values.email}/${values.password}`
         )
           .then(response => {
-            if (response.status === 200 && response.data === null) {
-              window.alert("Admin Not Found!!! Please Enter Valid Information");
-              resetForm();
-            }
 
-            if (response.status === 200) {
+            if (response.status === 200 && response.data) {
               localStorage.setItem("adminAuthToken", response.data._id);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Sign-In Successful :)",
+                showConfirmButton: true,
+                timer: 2000
+              });
               return props.history.push(
                 `/createSubject/${localStorage.getItem("adminAuthToken")}`
               );
-            }
+            };
 
-            return window.alert(
-              "Admin Not Found!!! Please Enter Valid Information"
-            );
+            if (response.status === 200 && response.data === null) {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Admin Not Found!!! Please Enter Valid Information.",
+                showConfirmButton: true,
+                timer: 2000
+              });
+              resetForm();
+              return;
+            };
+
+            
+
+            return Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 2000
+            });
           })
           .catch(error => error.message);
 
@@ -94,11 +125,13 @@ export default function SignInAdmin(props) {
           <div className="col-sm-12 col-md-6">
             <div className="card text-white border-light bg-dark">
               <div className="card-header text-center text-warning border-secondary">
-                <h2>Admin SignIn</h2>
+                <i>
+                  {" "}
+                  <h2>Admin SignIn</h2>
+                </i>
               </div>
               <div className="card-body ">
                 <div>
-                  <br />
                   <div className="row">
                     <div className="col">
                       <Field
@@ -118,7 +151,7 @@ export default function SignInAdmin(props) {
                       />
                     </div>
                   </div>
-                  <br />
+                  <hr />
                   <div className="row">
                     <div className="col">
                       <Field
@@ -138,14 +171,14 @@ export default function SignInAdmin(props) {
                     </div>
                   </div>
 
-                  <br />
+                  <hr />
                   <div className="row">
                     <div className="col text-center">
                       <canvas id="captcha" width="200" height="30"></canvas>
                     </div>
                   </div>
-                  <br />
 
+                  <hr />
                   <div className="row">
                     <div className="col">
                       <Field
@@ -164,14 +197,17 @@ export default function SignInAdmin(props) {
                       />
                     </div>
                   </div>
-                  <br />
+
+                  <hr />
                 </div>
                 <div className="text-center">
                   <button
                     type="submit"
-                    className="btn  btn-outline-secondary btn-block"
+                    className="btn  btn-outline-warning btn-block"
                   >
-                    <b>{" Sign In "}</b>
+                    <i>
+                      <b>{"Admin Sign In "}</b>
+                    </i>
                   </button>
                 </div>
 

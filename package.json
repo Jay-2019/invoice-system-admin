@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/Jay-2019/invoice-system-admin.git"
   },

@@ -26,9 +26,6 @@ export default function useNavigationBar(props) {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className=" collapse navbar-collapse" id="navbarNavAltMarkup">
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <div className=" navbar-nav">
             <Link
               className="nav-item nav-link "
@@ -50,7 +47,7 @@ export default function useNavigationBar(props) {
                 "adminAuthToken"
               )}`}
             >
-              <b> Course Fee DueDate</b>
+              <b> CourseFee DueDate</b>
             </Link>
 
             <Link
