@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -7,7 +7,36 @@ import { arrayOfSecurityQuestions } from "../../constant";
 import API from "../../config";
 
 export default function ResetPassword(props) {
-  return (
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  return isLoading ? (
+    <div
+      className="d-flex justify-content-center"
+      style={{ paddingTop: "200px" }}
+    >
+      <div className="row">
+        <div className="col ">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col    ">
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col ">
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <Formik
       initialValues={{
         verifiedEmail: "",
@@ -49,12 +78,13 @@ export default function ResetPassword(props) {
             icon: "warning",
             title: "Password & Confirm Password Should be Match.",
             showConfirmButton: true,
-            timer: 2000
+            timer: 3000
           });
           resetForm();
           return;
         }
 
+        setLoading(true);
         Axios.post(`${API}/resetAdminPassword/`, values)
           .then(response => {
             if (response.status === 200 && response.data) {
@@ -63,7 +93,7 @@ export default function ResetPassword(props) {
                 icon: "success",
                 title: "Password Reset Successful :)",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
               return props.history.push("/adminSignIn");
@@ -75,21 +105,35 @@ export default function ResetPassword(props) {
                 icon: "error",
                 title: "Admin Not Found!!! Please Enter Valid Information.",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
-            return Swal.fire({
+            Swal.fire({
               position: "center",
               icon: "error",
               title: "Something Went Wrong!!! Please Try After Sometime.",
               showConfirmButton: true,
-              timer: 2000
+              timer: 5000
             });
+            resetForm();
+            return setLoading(false);
           })
-          .catch(error => error.message);
+          .catch(error => {
+            console.log(error.message);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 5000
+            });
+            resetForm();
+            return setLoading(false);
+          });
 
         setSubmitting(true);
       }}

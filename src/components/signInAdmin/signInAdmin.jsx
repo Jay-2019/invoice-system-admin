@@ -6,6 +6,7 @@ import Axios from "axios";
 import API from "../../config";
 
 export default function SignInAdmin(props) {
+  const [isLoading, setLoading] = useState(false);
   const [getCaptcha, setCaptcha] = useState();
 
   const handleCaptcha = () => {
@@ -38,10 +39,35 @@ export default function SignInAdmin(props) {
   };
 
   useEffect(() => {
-    handleCaptcha();
-  }, []);
+    if (!isLoading) {
+      handleCaptcha();
+    }
+  }, [isLoading]);
 
-  return (
+  return isLoading ? (
+    <div
+      className="d-flex justify-content-center"
+      style={{ paddingTop: "200px" }}
+    >
+      <div className="row">
+        <div className="col ">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col    ">
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col ">
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <Formik
       initialValues={{
         email: "",
@@ -58,6 +84,7 @@ export default function SignInAdmin(props) {
           .max(8, "Invalid Password.")
           .matches(/[a-zA-Z]/, "Password can only contain letters.")
           .required("Password is required"),
+
         captcha: Yup.string().required("Please Fill Required Captcha")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -67,17 +94,17 @@ export default function SignInAdmin(props) {
             icon: "warning",
             title: "Please Enter valid Captcha.",
             showConfirmButton: true,
-            timer: 2000
+            timer: 5000
           });
           resetForm();
           return;
         }
 
+        setLoading(true);
         Axios.get(
           `${API}/adminAuthentication/${values.email}/${values.password}`
         )
           .then(response => {
-
             if (response.status === 200 && response.data) {
               localStorage.setItem("adminAuthToken", response.data._id);
               Swal.fire({
@@ -85,12 +112,12 @@ export default function SignInAdmin(props) {
                 icon: "success",
                 title: "Sign-In Successful :)",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               return props.history.push(
                 `/createSubject/${localStorage.getItem("adminAuthToken")}`
               );
-            };
+            }
 
             if (response.status === 200 && response.data === null) {
               Swal.fire({
@@ -98,23 +125,35 @@ export default function SignInAdmin(props) {
                 icon: "error",
                 title: "Admin Not Found!!! Please Enter Valid Information.",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
+              setLoading(false);
               return;
-            };
+            }
 
-            
-
-            return Swal.fire({
+            Swal.fire({
               position: "center",
               icon: "error",
               title: "Something Went Wrong!!! Please Try After Sometime.",
               showConfirmButton: true,
-              timer: 2000
+              timer: 5000
             });
+            resetForm();
+            return setLoading(false);
           })
-          .catch(error => error.message);
+          .catch(error => {
+            console.log(error.message);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 5000
+            });
+            resetForm();
+            return setLoading(false);
+          });
 
         setSubmitting(true);
       }}
@@ -126,8 +165,7 @@ export default function SignInAdmin(props) {
             <div className="card text-white border-light bg-dark">
               <div className="card-header text-center text-warning border-secondary">
                 <i>
-                  {" "}
-                  <h2>Admin SignIn</h2>
+                  <h2> {"Admin SignIn"}</h2>
                 </i>
               </div>
               <div className="card-body ">

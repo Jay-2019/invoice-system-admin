@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -13,6 +13,12 @@ const documentId = "5ec0ec3d70f1cc05e0d9f6d8";
 
 export default function CourseFeeDueDate(props) {
   const navigationBar = useNavigationBar();
+
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   // const [dueDate, setDueDate] = useState({
   //   firstYear: "",
@@ -36,7 +42,30 @@ export default function CourseFeeDueDate(props) {
   //     .catch(error => console.log(error.message));
   // }, []);
 
-  return (
+  return isLoading ? (
+    <div
+      className="d-flex justify-content-center"
+      style={{ paddingTop: "200px" }}
+    >
+      <div className="row">
+        <div className="col ">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col    ">
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col ">
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <Formik
       initialValues={{
         firstYear: new Date(),
@@ -51,6 +80,7 @@ export default function CourseFeeDueDate(props) {
         fourthYear: Yup.date().required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        setLoading(false);
         Axios.post(`${API}/updateCourseFeeDueDate/${documentId}`, values)
           .then(response => {
             if (response.status === 200 && response.data) {
@@ -59,9 +89,10 @@ export default function CourseFeeDueDate(props) {
                 icon: "success",
                 title: "Course-Fee Due-Date Successfully Updated :)",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
@@ -71,21 +102,35 @@ export default function CourseFeeDueDate(props) {
                 icon: "error",
                 title: "Failed!!! Please Try Again.",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
-            return Swal.fire({
+            Swal.fire({
               position: "center",
               icon: "error",
               title: "Something Went Wrong!!! Please Try After Sometime.",
               showConfirmButton: true,
-              timer: 2000
+              timer: 5000
             });
+            resetForm();
+            return setLoading(false);
           })
-          .catch(error => error.message);
+          .catch(error => {
+            console.log(error.message);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 5000
+            });
+            resetForm();
+            return setLoading(false);
+          });
 
         setSubmitting(true);
       }}
@@ -102,14 +147,12 @@ export default function CourseFeeDueDate(props) {
         <Form>
           {navigationBar}
           <hr />
-
           <div className="d-flex justify-content-center">
             <div className="col-sm-12 col-md-8 ">
               <div className="card  border-light text-white bg-dark">
                 <div className="card-header border-secondary text-success text-center">
                   <i>
-                    {" "}
-                    <h2> Update Course Fee Due Dates</h2>
+                    <h2>{"Update Course Fee Due Dates"}</h2>
                   </i>
                 </div>
                 <div className="card-body  text-center">
@@ -192,8 +235,7 @@ export default function CourseFeeDueDate(props) {
                           disabled={isSubmitting}
                         >
                           <i>
-                            {" "}
-                            <b> Update Due Dates</b>
+                            <b> {"Update Due Dates"}</b>
                           </i>
                         </button>
                       </div>

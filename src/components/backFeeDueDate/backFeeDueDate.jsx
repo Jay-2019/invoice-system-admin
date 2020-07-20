@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -13,7 +13,36 @@ const backFeeDueDateDocumentId = "5ec3822919bba72e54e8651d";
 export default function BackFeeDueDate(props) {
   const navigationBar = useNavigationBar();
 
-  return (
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  return isLoading ? (
+    <div
+      className="d-flex justify-content-center"
+      style={{ paddingTop: "200px" }}
+    >
+      <div className="row">
+        <div className="col ">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col    ">
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col ">
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <Formik
       initialValues={{
         firstSemester: new Date(),
@@ -36,6 +65,7 @@ export default function BackFeeDueDate(props) {
         eighthSemester: Yup.date().required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        setLoading(false);
         Axios.post(
           `${API}/updateBackFeeDueDate/${backFeeDueDateDocumentId}`,
           values
@@ -47,9 +77,10 @@ export default function BackFeeDueDate(props) {
                 icon: "success",
                 title: "Back-Fee Due-Date Update Successfully :)",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
@@ -59,21 +90,35 @@ export default function BackFeeDueDate(props) {
                 icon: "error",
                 title: "Failed!!! Please Try Again.",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
-            return Swal.fire({
+            Swal.fire({
               position: "center",
               icon: "error",
               title: "Something Went Wrong!!! Please Try After Sometime.",
               showConfirmButton: true,
-              timer: 2000
+              timer: 5000
             });
+            resetForm();
+            return setLoading(false);
           })
-          .catch(error => error.message);
+          .catch(error => {
+            console.log(error.message);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 5000
+            });
+            resetForm();
+            return setLoading(false);
+          });
 
         setSubmitting(false);
       }}

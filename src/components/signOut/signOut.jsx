@@ -8,9 +8,9 @@ export default function SignOut(props) {
     Swal.fire({
       position: "center",
       icon: "success",
-      title: "Sign-In Successful :)",
+      title: "Sign-Out Successful.",
       showConfirmButton: true,
-      timer: 2000
+      timer: 3000
     });
   });
 

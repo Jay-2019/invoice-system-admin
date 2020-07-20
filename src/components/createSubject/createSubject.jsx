@@ -10,6 +10,7 @@ import API from "../../config";
 export default function CreateSubject(props) {
   const navigationBar = useNavigationBar();
 
+  const [isLoading, setLoading] = useState(true);
   const [arrayOfBranch, setArrayOfBranch] = useState([]);
   const [history, setHistory] = useState({
     subject: "",
@@ -20,12 +21,62 @@ export default function CreateSubject(props) {
   useEffect(() => {
     Axios.get(`${API}/getBranch`)
       .then(response => {
-        setArrayOfBranch(response.data);
+        if (response.status === 200 && response.data) {
+          setArrayOfBranch(response.data);
+          setLoading(false);
+          return;
+        }
+
+        if (response.status === 200 && response.data === null) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Something Went Wrong!!! Please Try After Sometime.",
+            showConfirmButton: true,
+            timer: 5000
+          });
+          setLoading(false);
+          return;
+        }
       })
-      .catch(error => error.message);
+      .catch(error => {
+        console.log(error.message);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Something Went Wrong!!! Please Try After Sometime.",
+          showConfirmButton: true,
+          timer: 5000
+        });
+        setLoading(false);
+        return;
+      });
   }, []);
 
-  return (
+  return isLoading ? (
+    <div
+      className="d-flex justify-content-center"
+      style={{ paddingTop: "200px" }}
+    >
+      <div className="row">
+        <div className="col ">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col    ">
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div className="col ">
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <Formik
       initialValues={{
         subjectName: history.subject,
@@ -64,6 +115,7 @@ export default function CreateSubject(props) {
                 timer: 2000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
@@ -76,19 +128,32 @@ export default function CreateSubject(props) {
                 timer: 2000
               });
               resetForm();
+              setLoading(false);
               return;
             }
 
-            return Swal.fire({
+            Swal.fire({
               position: "center",
               icon: "error",
               title: "Something Went Wrong!!! Please Try After Sometime.",
               showConfirmButton: true,
-              timer: 2000
+              timer: 5000
             });
+            resetForm();
+            return setLoading(false);
           })
-          .catch(error => error.message);
-
+          .catch(error => {
+            console.log(error.message);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something Went Wrong!!! Please Try After Sometime.",
+              showConfirmButton: true,
+              timer: 5000
+            });
+            resetForm();
+            return setLoading(false);
+          });
         setSubmitting(true);
       }}
     >
