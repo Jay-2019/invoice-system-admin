@@ -65,7 +65,6 @@ export default function BackFeeDueDate(props) {
         eighthSemester: Yup.date().required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setLoading(false);
         Axios.post(
           `${API}/updateBackFeeDueDate/${backFeeDueDateDocumentId}`,
           values
@@ -79,7 +78,6 @@ export default function BackFeeDueDate(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -92,7 +90,6 @@ export default function BackFeeDueDate(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -104,7 +101,6 @@ export default function BackFeeDueDate(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -116,11 +112,12 @@ export default function BackFeeDueDate(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
 
         setSubmitting(false);
+        setLoading(true);
+        resetForm();
       }}
     >
       {({

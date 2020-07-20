@@ -112,9 +112,8 @@ export default function CreateSubject(props) {
                 icon: "success",
                 title: "Subject Successfully Created :)",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -125,9 +124,8 @@ export default function CreateSubject(props) {
                 icon: "error",
                 title: "Failed!!! Please Try Again.",
                 showConfirmButton: true,
-                timer: 2000
+                timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -139,7 +137,6 @@ export default function CreateSubject(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -151,10 +148,11 @@ export default function CreateSubject(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
         setSubmitting(true);
+        setLoading(true);
+        resetForm();
       }}
     >
       <Form>

@@ -96,11 +96,9 @@ export default function SignInAdmin(props) {
             showConfirmButton: true,
             timer: 5000
           });
-          resetForm();
           return;
         }
 
-        setLoading(true);
         Axios.get(
           `${API}/adminAuthentication/${values.email}/${values.password}`
         )
@@ -127,7 +125,6 @@ export default function SignInAdmin(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -139,7 +136,6 @@ export default function SignInAdmin(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -151,11 +147,12 @@ export default function SignInAdmin(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
 
         setSubmitting(true);
+        setLoading(true);
+        resetForm();
       }}
     >
       <Form>

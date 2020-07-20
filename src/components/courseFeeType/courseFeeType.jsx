@@ -193,7 +193,6 @@ export default function CourseFeeType(props) {
           .required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setLoading(false);
         values.totalFee = calculateFee(values);
 
         Axios.post(
@@ -209,7 +208,6 @@ export default function CourseFeeType(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -222,7 +220,6 @@ export default function CourseFeeType(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -234,7 +231,6 @@ export default function CourseFeeType(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -246,11 +242,12 @@ export default function CourseFeeType(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
 
         setSubmitting(true);
+        setLoading(true);
+        resetForm();
       }}
     >
       <Form>

@@ -86,7 +86,6 @@ export default function BackFeeType(props) {
         )
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setLoading(false);
         values.totalFee = calculateFee(values);
 
         Axios.post(`${API}/updateBackFeeType/${backFeeDocumentId}`, values)
@@ -99,7 +98,6 @@ export default function BackFeeType(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -112,7 +110,6 @@ export default function BackFeeType(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -124,7 +121,6 @@ export default function BackFeeType(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -136,11 +132,12 @@ export default function BackFeeType(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
 
         setSubmitting(true);
+        setLoading(true);
+        resetForm();
       }}
     >
       <Form>

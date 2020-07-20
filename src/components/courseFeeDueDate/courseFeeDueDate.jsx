@@ -80,7 +80,6 @@ export default function CourseFeeDueDate(props) {
         fourthYear: Yup.date().required("Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setLoading(false);
         Axios.post(`${API}/updateCourseFeeDueDate/${documentId}`, values)
           .then(response => {
             if (response.status === 200 && response.data) {
@@ -91,7 +90,6 @@ export default function CourseFeeDueDate(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -99,12 +97,11 @@ export default function CourseFeeDueDate(props) {
             if (response.status === 200 && response.data === null) {
               Swal.fire({
                 position: "center",
-                icon: "error",
+                icon: "warning",
                 title: "Failed!!! Please Try Again.",
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -116,7 +113,6 @@ export default function CourseFeeDueDate(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -128,11 +124,12 @@ export default function CourseFeeDueDate(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
 
         setSubmitting(true);
+        setLoading(true);
+        resetForm();
       }}
     >
       {({

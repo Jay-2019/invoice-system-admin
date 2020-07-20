@@ -80,11 +80,9 @@ export default function ResetPassword(props) {
             showConfirmButton: true,
             timer: 3000
           });
-          resetForm();
           return;
         }
 
-        setLoading(true);
         Axios.post(`${API}/resetAdminPassword/`, values)
           .then(response => {
             if (response.status === 200 && response.data) {
@@ -95,7 +93,6 @@ export default function ResetPassword(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               return props.history.push("/adminSignIn");
             }
 
@@ -107,7 +104,6 @@ export default function ResetPassword(props) {
                 showConfirmButton: true,
                 timer: 5000
               });
-              resetForm();
               setLoading(false);
               return;
             }
@@ -119,7 +115,6 @@ export default function ResetPassword(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           })
           .catch(error => {
@@ -131,11 +126,12 @@ export default function ResetPassword(props) {
               showConfirmButton: true,
               timer: 5000
             });
-            resetForm();
             return setLoading(false);
           });
 
         setSubmitting(true);
+        setLoading(true);
+        resetForm();
       }}
     >
       <Form>
