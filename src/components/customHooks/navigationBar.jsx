@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { adminAuthToken, backFeeDueDateDocumentId } from "../../constant";
 
 export default function useNavigationBar(props) {
   return (
@@ -27,56 +28,92 @@ export default function useNavigationBar(props) {
         </button>
         <div className=" collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className=" navbar-nav">
-            <Link
-              className="nav-item nav-link "
-              to={`/createBranch/${localStorage.getItem("adminAuthToken")}`}
-            >
-              <b>Create Branch</b>
-            </Link>
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <b> {"Branch"}</b>
+              </button>
+              <div className="dropdown-menu">
+                {/* Create Branch Hyperlink */}
+                <a
+                  className="dropdown-item"
+                  href={`/createBranch/${adminAuthToken}`}
+                >
+                  <b>Create Branch</b>
+                </a>
+                {/* List Branch Hyperlink */}
+                <a
+                  className="dropdown-item"
+                  href={`/listBranch/${adminAuthToken}`}
+                >
+                  <b> Branch List</b>
+                </a>
+              </div>
+            </div>
+            &nbsp;
+            {/* Subject Dropdown */}
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <b> {"Subject"}</b>
+              </button>
+              <div className="dropdown-menu">
+                {/* Create Subject Hyperlink */}
+                <a
+                  className="dropdown-item"
+                  href={`/createSubject/${adminAuthToken}`}
+                >
+                  <b>Create Subject</b>
+                </a>
+                {/* List Subject Hyperlink */}
+                <a
+                  className="dropdown-item"
+                  href={`/listSubject/${adminAuthToken}`}
+                >
+                  <b> Subject List</b>
+                </a>
+              </div>
+            </div>
+            &nbsp;
+            {/* Course-Fee-Due-Date Dropdown */}
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <b> CourseFee DueDate</b>
+              </button>
+              <div className="dropdown-menu">
+                {/* Update Course-Fee-Due-Date  Hyperlink */}
+                <a
+                  className="dropdown-item"
+                  href={`/updateCourseFeeDueDate/${adminAuthToken}`}
+                >
+                  <b>Update Course-Fee Due-Date</b>
+                </a>
 
-            <Link
-              className="nav-item nav-link "
-              to={`/createSubject/${localStorage.getItem("adminAuthToken")}`}
-            >
-              <b> Create Subject</b>
-            </Link>
-
-            <Link
-              className="nav-item nav-link "
-              to={`/updateCourseFeeDueDate/${localStorage.getItem(
-                "adminAuthToken"
-              )}`}
-            >
-              <b> CourseFee DueDate</b>
-            </Link>
-
-            <Link
-              className="nav-item nav-link "
-              to={`/updateCourseFeeType/${localStorage.getItem(
-                "adminAuthToken"
-              )}`}
-            >
-              <b> CourseFee Type</b>
-            </Link>
-            <Link
-              className="nav-item nav-link "
-              to={`/updateBackFeeType/${localStorage.getItem(
-                "adminAuthToken"
-              )}`}
-            >
-              <b> BackFee Type</b>
-            </Link>
-            <Link
-              className="nav-item nav-link "
-              to={`/updateBackFeeDueDate/${localStorage.getItem(
-                "adminAuthToken"
-              )}`}
-            >
-              <b> BackFee DueDate</b>
-            </Link>
-            <Link className="nav-item nav-link " to={"/signOut"}>
-              <b> Sign Out</b>
-            </Link>
+                {/* List Course-Fee-Due-Date */}
+                <a
+                  className="dropdown-item"
+                  href={`/displayCourseFeeDueDate/${adminAuthToken}`}
+                >
+                  <b> List Course-Fee Due-Date</b>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </nav>

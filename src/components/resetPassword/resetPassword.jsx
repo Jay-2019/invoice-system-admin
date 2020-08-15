@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import Axios from "axios";
 import { arrayOfSecurityQuestions } from "../../constant";
 import API from "../../config";
+import { Loader } from "../index";
 
 export default function ResetPassword(props) {
   const [isLoading, setLoading] = useState(true);
@@ -14,28 +15,7 @@ export default function ResetPassword(props) {
   }, []);
 
   return isLoading ? (
-    <div
-      className="d-flex justify-content-center"
-      style={{ paddingTop: "200px" }}
-    >
-      <div className="row">
-        <div className="col ">
-          <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-        <div className="col    ">
-          <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-        <div className="col ">
-          <div className="spinner-grow text-info" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader />
   ) : (
     <Formik
       initialValues={{
@@ -135,134 +115,125 @@ export default function ResetPassword(props) {
       }}
     >
       <Form>
-        <br />
-        <div className="d-flex justify-content-center">
-          <div className="card text-white bg-dark border-light text-center">
-            <div className="card-header text-warning border-secondary text-center">
-              <i>
-                <h2>Reset Password</h2>
-              </i>
-            </div>
-            <div className="card-body">
-              <div>
-                <div className="row">
-                  <div className="col">
-                    <Field
-                      type="string"
-                      name="verifiedEmail"
-                      placeholder="Verified Email "
-                      className="form-control"
-                    />
-                    <ErrorMessage name="verifiedEmail" />
-                  </div>
-                </div>
-
-                <hr />
-                <div className="row">
-                  <div className="col ">
-                    <Field
-                      type="password"
-                      name="createPassword"
-                      placeholder="Create Password"
-                      className="form-control"
-                    />
-                    <ErrorMessage
-                      name="createPassword"
-                      render={msg => (
-                        <div className="alert alert-primary" role="alert">
-                          {msg}
-                        </div>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <hr />
-                <div className="row">
-                  <div className="col">
-                    <Field
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      className="form-control"
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      render={msg => (
-                        <div className="alert alert-primary" role="alert">
-                          {msg}
-                        </div>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <hr />
-                <div className="row">
-                  <div className="col">
-                    <Field
-                      as="select"
-                      name="securityQuestion"
-                      className="custom-select"
-                    >
-                      <option hidden>Select Security Question...</option>
-                      {arrayOfSecurityQuestions.map((question, index) => (
-                        <option key={index} value={question}>
-                          {question}
-                        </option>
-                      ))}
-                    </Field>
-                    <ErrorMessage name="securityQuestion" />
-                  </div>
-                </div>
-
-                <hr />
-                <div className="row">
-                  <div className="col">
-                    <Field
-                      type="password"
-                      name="securityAnswer"
-                      placeholder="Security Answer"
-                      className="form-control"
-                    />
-                    <ErrorMessage
-                      name="securityAnswer"
-                      render={msg => (
-                        <div className="alert alert-primary" role="alert">
-                          {msg}
-                        </div>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <hr />
-                <div className="row">
-                  <div className="col text-center">
-                    <button
-                      type="submit"
-                      className="btn btn-outline-warning  btn-block"
-                    >
-                      <i>
-                        <b>{"Reset Password"}</b>
-                      </i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <small id="note" className="form-text text-muted">
-                  {"If You Are Lost Here Back To"}
-                  <a href="/adminSignIn">
-                    <b>{" Admin-Sign-In "}</b>
-                  </a>
-                </small>
+        <div className="card-header text-warning border-secondary text-center">
+          <i>
+            <h2>Reset Password</h2>
+          </i>
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col">
+                <Field
+                  type="string"
+                  name="verifiedEmail"
+                  placeholder="Verified Email "
+                  className="form-control"
+                />
+                <ErrorMessage name="verifiedEmail" />
               </div>
             </div>
 
-            <div className="card-footer border-secondary text-center">
-              Faculty of engineering & technology
+            <hr />
+            <div className="row">
+              <div className="col ">
+                <Field
+                  type="password"
+                  name="createPassword"
+                  placeholder="Create Password"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="createPassword"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
+                    </div>
+                  )}
+                />
+              </div>
             </div>
+
+            <hr />
+            <div className="row">
+              <div className="col">
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="confirmPassword"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+
+            <hr />
+            <div className="row">
+              <div className="col">
+                <Field
+                  as="select"
+                  name="securityQuestion"
+                  className="custom-select"
+                >
+                  <option hidden>Select Security Question...</option>
+                  {arrayOfSecurityQuestions.map((question, index) => (
+                    <option key={index} value={question}>
+                      {question}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage name="securityQuestion" />
+              </div>
+            </div>
+
+            <hr />
+            <div className="row">
+              <div className="col">
+                <Field
+                  type="password"
+                  name="securityAnswer"
+                  placeholder="Security Answer"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="securityAnswer"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+
+            <hr />
+            <div className="row">
+              <div className="col text-center">
+                <button
+                  type="submit"
+                  className="btn btn-outline-warning  btn-block"
+                >
+                  <i>
+                    <b>{"Reset Password"}</b>
+                  </i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="text-center">
+            <small id="note" className="form-text text-muted">
+              {"If You Are Lost Here Back To"}
+              <a href="/adminSignIn">
+                <b>{" Admin-Sign-In "}</b>
+              </a>
+            </small>
           </div>
         </div>
       </Form>

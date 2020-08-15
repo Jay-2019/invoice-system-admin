@@ -5,14 +5,13 @@ import Swal from "sweetalert2";
 import Axios from "axios";
 import { backFeeType } from "../../constant";
 import API from "../../config";
+import { Loader } from "../index";
 import { calculateFee } from "./helper";
-import { useNavigationBar } from "../index";
+
 //DB -> backFeeType(collection) -> documentID
 const backFeeDocumentId = "5ec376a132e3ab0f689a9d34";
 
 export default function BackFeeType(props) {
-  const navigationBar = useNavigationBar();
-
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,28 +19,7 @@ export default function BackFeeType(props) {
   }, []);
 
   return isLoading ? (
-    <div
-      className="d-flex justify-content-center"
-      style={{ paddingTop: "200px" }}
-    >
-      <div className="row">
-        <div className="col ">
-          <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-        <div className="col    ">
-          <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-        <div className="col ">
-          <div className="spinner-grow text-info" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader />
   ) : (
     <Formik
       initialValues={{
@@ -141,96 +119,85 @@ export default function BackFeeType(props) {
       }}
     >
       <Form>
-        {navigationBar}
-        <hr />
-        <div className="d-flex justify-content-center">
-          <div className="col-sm-12 col-md-8">
-            <div className="card text-white border-light bg-dark  ">
-              <div className="card-header text-success border-secondary text-center">
-                <i>
-                  <h2> {"Update Back Fee Type"}</h2>
-                </i>
+        <div className="card-header text-success border-secondary text-center">
+          <i>
+            <h2> {"Update Back Fee Type"}</h2>
+          </i>
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>{backFeeType.examinationFormFee}</b>
               </div>
-              <div className="card-body">
-                <div>
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>{backFeeType.examinationFormFee}</b>
-                    </div>
-                    <div className="col-sm-12 col-md-6 ">
-                      <Field
-                        type="number"
-                        name="examinationFormFee"
-                        placeholder={backFeeType.examinationFormFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="delayFee" />
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>{backFeeType.backPaper}</b>
-                    </div>
-                    <div className="col-sm-12 col-md-6 ">
-                      <Field
-                        type="number"
-                        name="backPaper"
-                        placeholder={backFeeType.backPaper}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="delayFee" />
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>{backFeeType.delayFee}</b>
-                    </div>
-                    <div className="col-sm-12 col-md-6 ">
-                      <Field
-                        type="number"
-                        name="delayFee"
-                        placeholder={backFeeType.delayFee}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="delayFee" />
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>{backFeeType.otherCharges}</b>
-                    </div>
-                    <div className="col-sm-12 col-md-6 ">
-                      <Field
-                        type="number"
-                        name="otherCharges"
-                        placeholder={backFeeType.otherCharges}
-                        className="form-control"
-                      />
-                      <ErrorMessage name="otherCharges" />
-                    </div>
-                  </div>
-                  <hr />
+              <div className="col-sm-12 col-md-6 ">
+                <Field
+                  type="number"
+                  name="examinationFormFee"
+                  placeholder={backFeeType.examinationFormFee}
+                  className="form-control"
+                />
+                <ErrorMessage name="delayFee" />
+              </div>
+            </div>
+            <hr />
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>{backFeeType.backPaper}</b>
+              </div>
+              <div className="col-sm-12 col-md-6 ">
+                <Field
+                  type="number"
+                  name="backPaper"
+                  placeholder={backFeeType.backPaper}
+                  className="form-control"
+                />
+                <ErrorMessage name="delayFee" />
+              </div>
+            </div>
+            <hr />
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>{backFeeType.delayFee}</b>
+              </div>
+              <div className="col-sm-12 col-md-6 ">
+                <Field
+                  type="number"
+                  name="delayFee"
+                  placeholder={backFeeType.delayFee}
+                  className="form-control"
+                />
+                <ErrorMessage name="delayFee" />
+              </div>
+            </div>
+            <hr />
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>{backFeeType.otherCharges}</b>
+              </div>
+              <div className="col-sm-12 col-md-6 ">
+                <Field
+                  type="number"
+                  name="otherCharges"
+                  placeholder={backFeeType.otherCharges}
+                  className="form-control"
+                />
+                <ErrorMessage name="otherCharges" />
+              </div>
+            </div>
+            <hr />
 
-                  <div className="row">
-                    <div className="col text-center">
-                      <button
-                        type="submit"
-                        //   disabled={isSubmitting}
-                        className="btn btn-outline-success btn-block"
-                      >
-                        <i>
-                          <b>Update Fee Type</b>
-                        </i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-footer border-secondary text-center">
-                Faculty of engineering & technology
+            <div className="row">
+              <div className="col text-center">
+                <button
+                  type="submit"
+                  //   disabled={isSubmitting}
+                  className="btn btn-outline-success btn-block"
+                >
+                  <i>
+                    <b>Update Fee Type</b>
+                  </i>
+                </button>
               </div>
             </div>
           </div>

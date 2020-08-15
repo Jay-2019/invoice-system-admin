@@ -3,35 +3,36 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import Axios from "axios";
-import { arrayOfSemester } from "../../constant";
-import { useNavigationBar } from "../index";
+import { arrayOfSubjectType, arrayOfSemester } from "../../constant";
 import API from "../../config";
+import { Loader } from "../index";
 
 export default function CreateSubject(props) {
-  const navigationBar = useNavigationBar();
-
   const [isLoading, setLoading] = useState(true);
   const [arrayOfBranch, setArrayOfBranch] = useState([]);
   const [history, setHistory] = useState({
-    subject: "",
+    subjectName: "",
+    subjectType: "",
     branch: "",
     semester: ""
   });
 
   useEffect(() => {
+    let source = Axios.CancelToken.source();
+
     Axios.get(`${API}/getBranch`)
       .then(response => {
-        if (response.status === 200 && response.data) {
+        if (response.status === 200 && !!response.data.length) {
           setArrayOfBranch(response.data);
           setLoading(false);
           return;
         }
 
-        if (response.status === 200 && response.data === null) {
+        if (response.status === 200 && !response.data.length) {
           Swal.fire({
             position: "center",
             icon: "error",
-            title: "Something Went Wrong!!! Please Try After Sometime.",
+            title: "Branch Not Found!!!",
             showConfirmButton: true,
             timer: 5000
           });
@@ -51,35 +52,19 @@ export default function CreateSubject(props) {
         setLoading(false);
         return;
       });
+
+    return () => {
+      source.cancel("Cancelling in cleanup");
+    };
   }, []);
 
   return isLoading ? (
-    <div
-      className="d-flex justify-content-center"
-      style={{ paddingTop: "200px" }}
-    >
-      <div className="row">
-        <div className="col ">
-          <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-        <div className="col    ">
-          <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-        <div className="col ">
-          <div className="spinner-grow text-info" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader />
   ) : (
     <Formik
       initialValues={{
         subjectName: history.subject,
+        subjectType: history.subjectType,
         branch: history.branch,
         semester: history.semester
       }}
@@ -89,17 +74,21 @@ export default function CreateSubject(props) {
             /^[ A-Za-z0-9_./+-]*$/,
             " Subject Name Contain only AlphaNumeric & Special Character(_,.,/,+,-) "
           )
-          .required("Required"),
+          .required("Subject Name Required"),
+        subjectType: Yup.string()
+          .oneOf(arrayOfSubjectType)
+          .required("Subject Type Required"),
         branch: Yup.string()
           .oneOf(arrayOfBranch)
-          .required("Required"),
+          .required("Branch Required"),
         semester: Yup.string()
           .oneOf(arrayOfSemester)
-          .required("Required")
+          .required("Semester Required")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setHistory({
-          subject: "",
+          subjectName: "",
+          subjectType: values.subjectType,
           branch: values.branch,
           semester: values.semester
         });
@@ -156,93 +145,121 @@ export default function CreateSubject(props) {
       }}
     >
       <Form>
-        {navigationBar}
-        <hr />
-        <div className="d-flex justify-content-center">
-          <div className="col-sm-12 col-md-8">
-            <div className="card text-white bg-dark border-light ">
-              <div className="card-header text-success border-secondary text-center">
-                <i>
-                  <h2>Create Subject</h2>
-                </i>
+        <div className="card-header text-success border-secondary text-center">
+          <i>
+            <h2>Create Subject</h2>
+          </i>
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>Subject Name</b>
               </div>
-              <div className="card-body">
-                <div>
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>Subject Name</b>
+              <div className="col-sm-12 col-md-6">
+                <Field
+                  type="string"
+                  name="subjectName"
+                  placeholder="Subject "
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="subjectName"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
                     </div>
-                    <div className="col-sm-12 col-md-6">
-                      <Field
-                        type="string"
-                        name="subjectName"
-                        placeholder="Subject "
-                        className="form-control"
-                      />
-                      <ErrorMessage name="subjectName" />
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>Branch</b>
-                    </div>
-                    <div className="col-sm-12 col-md-6 ">
-                      <Field
-                        as="select"
-                        name="branch"
-                        className="custom-select"
-                      >
-                        <option hidden>Select Branch...</option>
-                        {arrayOfBranch.map((branch, index) => (
-                          <option key={index} value={branch}>
-                            {branch}
-                          </option>
-                        ))}
-                      </Field>
-                      <ErrorMessage name="branch" />
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6 text-center">
-                      <b>Semester</b>
-                    </div>
-                    <div className="col-sm-12 col-md-6 ">
-                      <Field
-                        as="select"
-                        name="semester"
-                        className="custom-select"
-                      >
-                        <option hidden>Select Semester...</option>
-                        {arrayOfSemester.map((semester, index) => (
-                          <option key={index} value={semester}>
-                            {semester}
-                          </option>
-                        ))}
-                      </Field>
-                      <ErrorMessage name="semester" />
-                    </div>
-                  </div>
-                  <hr />
+                  )}
+                />
+              </div>
+            </div>
 
-                  <div className="row">
-                    <div className="col text-center">
-                      <button
-                        type="submit"
-                        className="btn btn-outline-success  btn-block"
-                      >
-                        <i>
-                          {" "}
-                          <b>{" Create Subject"}</b>
-                        </i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+            <hr />
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>Subject Type</b>
               </div>
-              <div className="card-footer border-secondary text-center">
-                Faculty of engineering & technology
+              <div className="col-sm-12 col-md-6 ">
+                <Field as="select" name="subjectType" className="custom-select">
+                  <option hidden>Select Subject Type...</option>
+                  {arrayOfSubjectType.map((subjectType, index) => (
+                    <option key={index} value={subjectType}>
+                      {subjectType}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="subjectType"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+
+            <hr />
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>Branch</b>
+              </div>
+              <div className="col-sm-12 col-md-6 ">
+                <Field as="select" name="branch" className="custom-select">
+                  <option hidden>Select Branch...</option>
+                  {arrayOfBranch.map((branch, index) => (
+                    <option key={index} value={branch}>
+                      {branch}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="branch"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+
+            <hr />
+            <div className="row">
+              <div className="col-sm-12 col-md-6 text-center">
+                <b>Semester</b>
+              </div>
+              <div className="col-sm-12 col-md-6 ">
+                <Field as="select" name="semester" className="custom-select">
+                  <option hidden>Select Semester...</option>
+                  {arrayOfSemester.map((semester, index) => (
+                    <option key={index} value={semester}>
+                      {semester}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="semester"
+                  render={msg => (
+                    <div className="alert alert-primary" role="alert">
+                      {msg}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+
+            <hr />
+            <div className="row">
+              <div className="col text-center">
+                <button
+                  type="submit"
+                  className="btn btn-outline-success  btn-block"
+                >
+                  <i>
+                    <b>{" Create Subject"}</b>
+                  </i>
+                </button>
               </div>
             </div>
           </div>
