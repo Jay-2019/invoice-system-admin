@@ -1,0 +1,97 @@
+ {/* Create Branch  */}
+ <Link
+ className="nav-item nav-link "
+ to={`/createBranch/${adminAuthToken}`}
+>
+ <b> Create Branch</b>
+</Link>
+
+{/* List Branch */}
+<Link
+ className="nav-item nav-link "
+ to={`/listBranch/${adminAuthToken}`}
+>
+ <b> List Branch</b>
+</Link>
+
+{/* Create Subject  */}
+<Link
+ className="nav-item nav-link "
+ to={`/createSubject/${adminAuthToken}`}
+>
+ <b> Create Subject</b>
+</Link>
+
+{/* List Subject */}
+<Link
+ className="nav-item nav-link "
+ to={`/listSubject/${adminAuthToken}`}
+>
+ <b> List Subject</b>
+</Link>
+
+{/* Update Course Fee DueDate */}
+<Link
+ className="nav-item nav-link "
+ to={`/updateCourseFeeDueDate/${adminAuthToken}`}
+>
+ <b> CourseFee DueDate</b>
+</Link>
+
+{/* Update Course Fee DueDate */}
+<Link
+ className="nav-item nav-link "
+ to={`/displayCourseFeeDueDate/${adminAuthToken}`}
+>
+ <b>{"List CourseFee DueDate"}</b>
+</Link>
+
+{/* Update Course Fee Type */}
+<Link
+ className="nav-item nav-link "
+ to={`/updateCourseFeeType/${adminAuthToken}`}
+>
+ <b> CourseFee Type</b>
+</Link>
+
+{/* Update Back Fee DueDate */}
+<Link
+ className="nav-item nav-link "
+ to={`/updateBackFeeDueDate/${backFeeDueDateDocumentId}/${adminAuthToken}`}
+>
+ <b> BackFee DueDate</b>
+</Link>
+
+{/* Update Back Fee Type */}
+<Link
+ className="nav-item nav-link "
+ to={`/updateBackFeeType/${adminAuthToken}`}
+>
+ <b> BackFee Type</b>
+</Link>
+
+<Link className="nav-item nav-link " to={"/signOut"}>
+ <b> Sign Out</b>
+</Link>
+/* ######################################## */
+<Link
+ className="nav-item nav-link "
+ to={`/updateCourseFeeT${adminAuthToken}`}
+>
+ <b> CourseFee Type</b>
+</Link>
+<Link
+ className="nav-item nav-link "
+ to={`/updateBackFeeT${adminAuthToken}`}
+>
+ <b> BackFee Type</b>
+</Link>
+<Link
+ className="nav-item nav-link "
+ to={`/updateBackFeeDueD${adminAuthToken}`}
+>
+ <b> BackFee DueDate</b>
+</Link>
+<Link className="nav-item nav-link " to={"/signOut"}>
+ <b> Sign Out</b>
+</Link>
